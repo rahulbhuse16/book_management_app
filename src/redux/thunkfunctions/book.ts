@@ -1,5 +1,6 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import api from "../../api/api";
+import { toast } from "../../utils/toast";
 export const setBooksByFetching = createAsyncThunk(
   "book/setBooksByFetching",
   async ({ page }: { page: number }, thunkapi) => {
@@ -12,7 +13,9 @@ export const setBooksByFetching = createAsyncThunk(
         books: data?.data,
         totalPages :data?.totalPages
       });
-    } catch (err: any) {}
+    } catch (err: any) {
+        toast.error(err?.response?.data?.error || "Something went wrong!!!")
+    }
   }
 );
 
@@ -21,7 +24,11 @@ export const setBooksByEdit = createAsyncThunk(
   async ({ editId ,payload}: { editId: string,payload:any }, thunkapi) => {
     try {
       await api.put(`/${editId}`,payload);
-    } catch (err: any) {}
+      toast.success("Book Edit Successfully")
+    } catch (err: any) {
+                toast.error(err?.response?.data?.error || "Something went wrong!!!")
+
+    }
   }
 );
 
@@ -30,7 +37,11 @@ export const setBooksByDelete = createAsyncThunk(
   async ({ editId }: { editId: string }, thunkapi) => {
     try {
       await api.delete(`/${editId}`);
-    } catch (err: any) {}
+      toast.success("Book Delted Successfully")
+    } catch (err: any) {
+                toast.error(err?.response?.data?.error || "Something went wrong!!!")
+
+    }
   }
 );
 export const createNewBook = createAsyncThunk(
@@ -40,6 +51,10 @@ export const createNewBook = createAsyncThunk(
       await api.post(`/`, 
         payload,
       );
-    } catch (err: any) {}
+      toast.success("Book Created Successfully")
+    } catch (err: any) {
+                toast.error(err?.response?.data?.error || "Something went wrong!!!")
+
+    }
   }
 );

@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { Pencil, Trash2 } from "lucide-react";
-import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 import AddBookModal from "../modals/AddBookModal";
 import ConfirmDeleteBookModal from "../modals/DeleteBookModal";
@@ -12,6 +11,7 @@ import {
   setBooksByFetching,
 } from "../redux/thunkfunctions/book";
 import EditBookModal from "../modals/EditBookModal";
+import BookListLoader from "../components/BookListLoader";
 
 const genres = ["", "Fiction", "Biography", "Science", "History"];
 const statuses = ["", "Available", "Issued"];
@@ -85,40 +85,7 @@ const BookList: React.FC = () => {
 
   if (bookState.isListLoading) {
     return (
-      <div className="p-6 bg-gray-50 min-h-screen">
-        <Skeleton width={300} height={40} className="mb-6 mx-auto" />
-        <Skeleton height={40} className="mb-4 mx-auto" />
-        <div className="overflow-x-auto bg-white rounded-lg shadow-lg">
-          <table className="min-w-full divide-y divide-gray-300">
-            <thead className="bg-gradient-to-r from-purple-600 to-indigo-600 text-white">
-              <tr>
-                {Array(6)
-                  .fill(0)
-                  .map((_, i) => (
-                    <th key={i} className="px-6 py-3">
-                      <Skeleton width={100} />
-                    </th>
-                  ))}
-              </tr>
-            </thead>
-            <tbody>
-              {Array(10)
-                .fill(0)
-                .map((_, rowIdx) => (
-                  <tr key={rowIdx}>
-                    {Array(6)
-                      .fill(0)
-                      .map((_, colIdx) => (
-                        <td key={colIdx} className="px-6 py-4">
-                          <Skeleton width="100%" height={20} />
-                        </td>
-                      ))}
-                  </tr>
-                ))}
-            </tbody>
-          </table>
-        </div>
-      </div>
+      <BookListLoader/>
     );
   }
 
