@@ -3,16 +3,17 @@ import api from "../../api/api";
 import { toast } from "../../utils/toast";
 export const setBooksByFetching = createAsyncThunk(
   "book/setBooksByFetching",
-  async ({ page }: { page: number }, thunkapi) => {
+  async ({ page,search,status,genre }: { page: number,search:string,status:string,genre:string }, thunkapi) => {
     try {
-      const res = await api.get(`/?page=${page}`);
-
-      const data = await res.data;
+        
+        const res=await api.get(`/search?query=${search}&genre=${genre}&status=${status}&page=${page}`)
+        const data = await res.data;
 
       return thunkapi.fulfillWithValue({
         books: data?.data,
         totalPages :data?.totalPages
       });
+    
     } catch (err: any) {
         toast.error(err?.response?.data?.error || "Something went wrong!!!")
     }

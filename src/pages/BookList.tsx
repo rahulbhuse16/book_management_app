@@ -76,7 +76,7 @@ const BookList: React.FC = () => {
   const totalPages = bookState.totalPages;
 
   const fetchBooks = async () => {
-    await dispatch(setBooksByFetching({ page }));
+    await dispatch(setBooksByFetching({ page,search,genre:genreFilter,status:statusFilter }));
   };
 
   useEffect(() => {
