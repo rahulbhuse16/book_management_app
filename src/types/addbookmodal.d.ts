@@ -12,6 +12,7 @@ type BookModalProps = {
   onClose: () => void
   onSubmit: (data: BookListNS.IBook) => void
   initialData?: BookFormData
+  isLoading?:boolean;
 }
 
 }

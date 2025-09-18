@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Pencil, Trash2 } from "lucide-react";
+import { ChevronLeft, ChevronRight, Pencil, Trash2 } from "lucide-react";
 import "react-loading-skeleton/dist/skeleton.css";
 import AddBookModal from "../modals/AddBookModal";
 import ConfirmDeleteBookModal from "../modals/DeleteBookModal";
@@ -83,7 +83,7 @@ const BookList: React.FC = () => {
     fetchBooks();
   }, [page, search, genreFilter, statusFilter]);
 
-  if (bookState.isListLoading) {
+  if (bookState.isListLoading && search==='') {
     return (
       <BookListLoader/>
     );
@@ -95,6 +95,7 @@ const BookList: React.FC = () => {
         onClose={onCloseAddBookModal}
         isOpen={isAddBookModalOpen}
         onSubmit={addBookToLibrary}
+        isLoading={bookState.isAddBookLoading}
       />
     );
   }
@@ -118,6 +119,7 @@ const BookList: React.FC = () => {
         onClose={onCloseEditBook}
         onSubmit={onEditBook}
         isOpen={isEditBookOpen}
+        isLoading={bookState.isEditBookLoading}
       />
     );
   }
@@ -274,13 +276,13 @@ const BookList: React.FC = () => {
       </div>
 
       {/* Pagination */}
-      <div className="flex justify-center items-center space-x-4 mt-6">
+      <div className="flex justify-end items-center space-x-4 mt-6">
         <button
           disabled={page === 1}
           onClick={() => setPage((p) => p - 1)}
-          className="px-4 py-2 bg-purple-500 text-white rounded hover:bg-purple-600 disabled:opacity-50"
+          className="px-4 py-2 bg-purple-500 text-white rounded hover:bg-purple-600 disabled:opacity-50 cursor-pointer"
         >
-          Previous
+          <ChevronLeft/>
         </button>
 
         <span className="font-medium">
@@ -290,9 +292,9 @@ const BookList: React.FC = () => {
         <button
           disabled={page === totalPages}
           onClick={() => setPage((p) => p + 1)}
-          className="px-4 py-2 bg-purple-500 text-white rounded hover:bg-purple-600 disabled:opacity-50"
+          className="px-4 py-2 bg-purple-500 text-white rounded hover:bg-purple-600 disabled:opacity-50 cursor-pointer"
         >
-          Next
+          <ChevronRight/>
         </button>
       </div>
     </div>

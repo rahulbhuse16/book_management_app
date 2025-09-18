@@ -3,8 +3,8 @@ import React from 'react'
 
 
 const Spinner: React.FC<LoaderNS.LoaderProps> = ({
-  size = 50,
-  color = '#7C3AED', // default purple
+  size = 30,
+  color = '#fff', // default purple
   className = '',
 }) => {
   const dots = Array.from({ length: 8 })
