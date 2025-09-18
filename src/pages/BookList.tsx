@@ -30,6 +30,20 @@ const BookList: React.FC = () => {
   const bookState = useAppSelector((state) => state.books.bookState);
   const dispatch = useAppDispatch();
   const books = bookState.books;
+  const fetchBooks = async () => {
+    await dispatch(
+      setBooksByFetching({
+        page,
+        search,
+        genre: genreFilter,
+        status: statusFilter,
+      })
+    );
+  };
+
+  useEffect(() => {
+    fetchBooks();
+  }, [page, search, genreFilter, statusFilter]);
 
   const onOpenAddBookModal = () => {
     setIsAddBookModalOpen(true);
@@ -75,18 +89,10 @@ const BookList: React.FC = () => {
 
   const totalPages = bookState.totalPages;
 
-  const fetchBooks = async () => {
-    await dispatch(setBooksByFetching({ page,search,genre:genreFilter,status:statusFilter }));
-  };
+  
 
-  useEffect(() => {
-    fetchBooks();
-  }, [page, search, genreFilter, statusFilter]);
-
-  if (bookState.isListLoading && search==='') {
-    return (
-      <BookListLoader/>
-    );
+  if (bookState.isListLoading && search === "") {
+    return <BookListLoader />;
   }
 
   if (isAddBookModalOpen) {
@@ -282,7 +288,7 @@ const BookList: React.FC = () => {
           onClick={() => setPage((p) => p - 1)}
           className="px-4 py-2 bg-purple-500 text-white rounded hover:bg-purple-600 disabled:opacity-50 cursor-pointer"
         >
-          <ChevronLeft/>
+          <ChevronLeft />
         </button>
 
         <span className="font-medium">
@@ -294,7 +300,7 @@ const BookList: React.FC = () => {
           onClick={() => setPage((p) => p + 1)}
           className="px-4 py-2 bg-purple-500 text-white rounded hover:bg-purple-600 disabled:opacity-50 cursor-pointer"
         >
-          <ChevronRight/>
+          <ChevronRight />
         </button>
       </div>
     </div>
